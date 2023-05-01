@@ -1,0 +1,34 @@
+{
+    "name": "poe-divine-exchange-rate",
+    "version": "1.0.0",
+    "description": "tells me div price",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "clean": "rm -rf dist",
+        "build": "npm run clean && electron-builder build --mac --win",
+        "dist": "electron-builder --win"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "node-fetch": "^2.6.7"
+    },
+    "devDependencies": {
+        "@electron-forge/cli": "^6.0.0-beta.59",
+        "electron": "^13.4.0"
+    },
+    "build": {
+        "appId": "diehard5566's product",
+        "productName": "divPriceRemainder",
+        "directories": {
+            "output": "dist"
+        },
+        "win": {
+            "target": "portable"
+        }
+    }
+}

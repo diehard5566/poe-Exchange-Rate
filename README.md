@@ -1,0 +1,1 @@
+簡單的D:C轉換工具。只適用於garenaTW POE。
