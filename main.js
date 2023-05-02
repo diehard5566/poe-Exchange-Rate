@@ -17,25 +17,37 @@ ipcMain.on('app-reload', () => {
   }
 });
 
+const mapExchangeData = new Map()
+
 function createWindow(exchangeData) {
   const win = new BrowserWindow({
-    width: 330,
-    height: 140,
+    width: 195,
+    height: 85,
     x: 0,
     y: 0,
     alwaysOnTop: true,
+    frame: false,
     backgroundColor: '#80000000',
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      enableRemoteModule: true,
       preload: path.join(__dirname,'controller', 'preload.js')
     }
   })
+
+    // 美化視窗外觀
+  win.setOpacity(0.85);
+  win.setIgnoreMouseEvents(false, { forward: true });
+  win.setVisibleOnAllWorkspaces(true);
+
   win.loadFile('./src/index.html')
 
   setInterval(async () => {
     const exchange = await divine(searchJsonReady)
     const formatExchange =  exchange[0].slice(0, 3).map(val => `${val}c`).join(',');
+
+    mapExchangeData.set('rate', exchange[0][1])
 
     win.webContents.send('exchangeData1', formatExchange);
   }, 180000);
@@ -50,12 +62,15 @@ function createWindow(exchangeData) {
   });
 }
 
+
  // 創建一個 async 函數用於抓取資料和定時更新資料
 async function updateExchangeData() {
   try {
     const exchange = await divine(searchJsonReady);
     const formatExchange =  exchange[0].slice(0, 3).map(val => `${val}c`).join(',');
     const URL = exchange[1];
+
+    mapExchangeData.set('rate', exchange[0][1])
 
     return {
       formatExchange,
@@ -72,7 +87,7 @@ function createNewWinForRate(rates) {
     width: 130,
     height: 250,
     transparent: true,
-    x: 400,
+    x: 260,
     y: 0,
     webPreferences: {
       nodeIntegration: true,
@@ -111,28 +126,9 @@ app.on('window-all-closed', () => {
   }
 });
 
-let cache = {}
-
  // 副視窗
 // eslint-disable-next-line no-unused-vars
 ipcMain.on('openNewWindow', async (event) => {
-  if (app.isReady) {
-    const cacheKey = 'exchange-rates';
-     // 檢查是否有緩存數據
-    if (cache[cacheKey]) {
-      createNewWinForRate(cache[cacheKey]);
-      return;
-    }
-    try {
-      // const exchange = [ [100,200,300],'noewnfw' ] //for test
-      const exchange = await divine(searchJsonReady);
-      const rates = exchange[0][1];
-       // 將獲取的數據存入緩存中
-      cache[cacheKey] = rates;
-       // 創建新窗口
-      createNewWinForRate(rates);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const rates = mapExchangeData.get('rate');
+  createNewWinForRate(rates);
 });
