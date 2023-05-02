@@ -10,6 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
     // 接收從主進程傳遞過來的訊息
+    // eslint-disable-next-line no-unused-vars
     ipcRenderer.on('openNewWindow', (event) => {
         const newWindow = window.open('./newWindowRate.html', 'newWindow', 'width=800,height=600');
         // 在新視窗載入後傳遞訊息

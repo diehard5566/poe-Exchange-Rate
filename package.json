@@ -1,10 +1,10 @@
 {
     "name": "poe-divine-exchange-rate",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "tells me div price",
     "main": "main.js",
     "scripts": {
-        "start": "electron .",
+        "start": "nodemon --watch main.js --watch preload.js electron .",
         "clean": "rm -rf dist",
         "build": "npm run clean && electron-builder build --mac --win",
         "dist": "electron-builder --win"
@@ -15,11 +15,13 @@
     "dependencies": {
         "dotenv": "^16.0.3",
         "express": "^4.18.2",
-        "node-fetch": "^2.6.7"
+        "node-fetch": "^2.6.9"
     },
     "devDependencies": {
         "@electron-forge/cli": "^6.0.0-beta.59",
-        "electron": "^13.4.0"
+        "electron": "^13.6.9",
+        "electron-reload": "^2.0.0-alpha.1",
+        "eslint": "^8.39.0"
     },
     "build": {
         "appId": "diehard5566's product",

@@ -1,0 +1,84 @@
+css
+/* 新增半透明背景 */
+body {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.container {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+body {
+    margin: 0; /* 清除 body 的 margin 和 padding */
+    padding: 0;
+    box-sizing: border-box; /* 設置 box-sizing 屬性，使設定的寬度和高度包括 padding 和 border */
+    border-radius: 10px; /* 設置邊框圓角 */
+  }
+  
+  .container {
+    height: calc(100% - 4px); /* 計算內容區域高度，減去上下邊框的寬度 */
+    width: calc(100% - 4px); /* 計算內容區域寬度，減去左右邊框的寬度 */
+    padding: 10px; /* 設置內容區域 padding */
+    box-sizing: border-box; /* 設置 box-sizing 屬性 */
+  }
+
+/* 原有的樣式 */
+.app-icon {
+  width: 50px;
+  height: 50px;
+}
+.app-icon:hover {
+  cursor: pointer;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+#exchange-data1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: white;
+}
+#official-link {
+  font-size: 1.5em;
+  color: rgb(251, 251, 253);
+  text-decoration: none;
+}
+#openNewWindowButton {
+  font-size: 2em;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#link-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  #official-link {
+    order: 1;
+  }
+  
+  #openNewWindowArea {
+    order: 2;
+    margin-left: 80px; /* 調整與官網連結之間的距離 */
+  }
+  
+  #openNewWindowTip {
+    cursor: pointer;
+    color: #0080ff;
+  }
+
+  #openNewWindowTip img {
+    width: 65px;
+    height: 50px;
+  }
+
+  .container2 {
+    background-color: black;
+    color: white;
+  }
