@@ -10,9 +10,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   ipcRenderer.on('exchangeData1', (event, data) => {
-    console.log('🚀 -------------------------------------------------------🚀');
-    console.log('🚀 ~ file: preload.js:13 ~ ipcRenderer.on ~ data:', data);
-    console.log('🚀 -------------------------------------------------------🚀');
     exchangeDataElement.innerText = data;
   });
 
@@ -27,3 +24,4 @@ window.addEventListener('DOMContentLoaded', () => {
 
   ipcRenderer.send('getExchangeData');
 });
+

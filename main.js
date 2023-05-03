@@ -4,6 +4,7 @@ const path = require('path');
 const process = require('process');
 const { divine } = require('./controller/currencyExchange');
 const searchJsonReady = require('./src/divinePrice.json');
+//方便開發使用
 require('electron-reload')(__dirname, {
   electron: require(`${__dirname}/node_modules/electron`)
 });
@@ -19,15 +20,15 @@ ipcMain.on('app-reload', () => {
 
 const mapExchangeData = new Map()
 
+let win;
+
 function createWindow(exchangeData) {
-  const win = new BrowserWindow({
-    width: 200,
-    height: 125,
+  win = new BrowserWindow({
+    width: 180,
+    height: 80,
     x: 0,
     y: 0,
-    autoHideMenuBar: true,
-    alwaysOnTop: true,
-    // frame: false,
+    frame: false,
     backgroundColor: '#80000000',
     webPreferences: {
       nodeIntegration: true,
@@ -41,6 +42,7 @@ function createWindow(exchangeData) {
   win.setOpacity(0.85);
   win.setIgnoreMouseEvents(false, { forward: true });
   win.setVisibleOnAllWorkspaces(true);
+  win.setAlwaysOnTop(true, 'floating')
 
   win.loadFile('./src/index.html')
 
@@ -63,7 +65,6 @@ function createWindow(exchangeData) {
   });
 }
 
-
  // 創建一個 async 函數用於抓取資料和定時更新資料
 async function updateExchangeData() {
   try {
@@ -83,15 +84,28 @@ async function updateExchangeData() {
   }
 }
 
+let newWin;
+
 function createNewWinForRate(rates) {
-  let newWin = new BrowserWindow({
+  const getWinBounds = () => {
+    const {x, y, width, height} = win.getBounds();
+    const xPosition = x + width + 10;
+    const yPosition = y + (height - 220) / 2; 
+    return {xPosition, yPosition};
+  };
+
+  const winBounds = getWinBounds();
+  
+  newWin= new BrowserWindow({
+    parent: win,
+    show: true,
     width: 130,
-    height: 250,
+    height: 220,
     frame: false,
     autoHideMenuBar: true,
     backgroundColor: '#80000000',
-    x: 260,
-    y: 0,
+    x: winBounds.xPosition,
+    y: winBounds.yPosition,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -102,6 +116,10 @@ function createNewWinForRate(rates) {
   newWin.setOpacity(0.85);
   newWin.setIgnoreMouseEvents(false, { forward: true });
   newWin.setVisibleOnAllWorkspaces(true);
+
+  newWin.webContents.on('did-finish-load', () => {
+    newWin.show();
+  });
 
   newWin.loadFile('./src/newWindowRate.html');
 
@@ -137,7 +155,7 @@ app.on('window-all-closed', () => {
   }
 });
 
- // 副視窗
+// 副視窗
 // eslint-disable-next-line no-unused-vars
 ipcMain.on('openNewWindow', async (event) => {
   const rates = mapExchangeData.get('rate');
