@@ -4,9 +4,9 @@ const path = require('path');
 const process = require('process');
 const { divine } = require('./controller/currencyExchange');
 const searchJsonReady = require('./src/divinePrice.json');
-// require('electron-reload')(__dirname, {
-//   electron: require(`${__dirname}/node_modules/electron`)
-// });
+require('electron-reload')(__dirname, {
+  electron: require(`${__dirname}/node_modules/electron`)
+});
 
 ipcMain.setMaxListeners(50);
 
@@ -21,12 +21,13 @@ const mapExchangeData = new Map()
 
 function createWindow(exchangeData) {
   const win = new BrowserWindow({
-    width: 195,
-    height: 85,
+    width: 200,
+    height: 125,
     x: 0,
     y: 0,
+    autoHideMenuBar: true,
     alwaysOnTop: true,
-    frame: false,
+    // frame: false,
     backgroundColor: '#80000000',
     webPreferences: {
       nodeIntegration: true,
@@ -86,7 +87,9 @@ function createNewWinForRate(rates) {
   let newWin = new BrowserWindow({
     width: 130,
     height: 250,
-    transparent: true,
+    frame: false,
+    autoHideMenuBar: true,
+    backgroundColor: '#80000000',
     x: 260,
     y: 0,
     webPreferences: {
@@ -95,14 +98,22 @@ function createNewWinForRate(rates) {
       preload: path.join(__dirname,'controller', 'newWindowRate.js')
     }
   });
+
+  newWin.setOpacity(0.85);
+  newWin.setIgnoreMouseEvents(false, { forward: true });
+  newWin.setVisibleOnAllWorkspaces(true);
+
   newWin.loadFile('./src/newWindowRate.html');
+
   ipcMain.on('getRateData', (event) => {
     event.sender.send('exchange-rate', rates);
   });
+
    // 修正 closeNewWindow 事件註冊函數
   newWin.on('closed', () => {
     newWin = null;
   });
+
   ipcMain.on('closeNewWindow', () => {
     if (newWin) {
       newWin.close();

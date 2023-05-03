@@ -1,6 +1,6 @@
 {
     "name": "poe-divine-exchange-rate",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "tells me div price",
     "main": "main.js",
     "scripts": {
@@ -30,7 +30,11 @@
             "output": "dist"
         },
         "win": {
-            "target": "portable"
+            "target": "portable",
+            "icon": "build/icons/divineOrb64.png",
+            "png": [
+                "build/icons/divineOrb.png"
+            ]
         }
     }
 }
