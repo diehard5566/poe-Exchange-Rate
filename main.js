@@ -24,8 +24,8 @@ let win;
 
 function createWindow(exchangeData) {
   win = new BrowserWindow({
-    width: 180,
-    height: 80,
+    width: 160,
+    height: 70,
     x: 0,
     y: 0,
     frame: false,
@@ -42,7 +42,7 @@ function createWindow(exchangeData) {
   win.setOpacity(0.85);
   win.setIgnoreMouseEvents(false, { forward: true });
   win.setVisibleOnAllWorkspaces(true);
-  win.setAlwaysOnTop(true, 'floating')
+  win.setAlwaysOnTop(true)
 
   win.loadFile('./src/index.html')
 
@@ -64,6 +64,7 @@ function createWindow(exchangeData) {
     app.quit();
   });
 }
+
 
  // 創建一個 async 函數用於抓取資料和定時更新資料
 async function updateExchangeData() {
@@ -95,6 +96,9 @@ function createNewWinForRate(rates) {
   };
 
   const winBounds = getWinBounds();
+  console.log('🚀 -------------------------------------------------------------------🚀');
+  console.log('🚀 ~ file: main.js:98 ~ createNewWinForRate ~ winBounds:', winBounds);
+  console.log('🚀 -------------------------------------------------------------------🚀');
   
   newWin= new BrowserWindow({
     parent: win,
@@ -116,10 +120,9 @@ function createNewWinForRate(rates) {
   newWin.setOpacity(0.85);
   newWin.setIgnoreMouseEvents(false, { forward: true });
   newWin.setVisibleOnAllWorkspaces(true);
+  win.setAlwaysOnTop(true, 'floating')
 
-  newWin.webContents.on('did-finish-load', () => {
-    newWin.show();
-  });
+  newWin.show();
 
   newWin.loadFile('./src/newWindowRate.html');
 
@@ -139,6 +142,13 @@ function createNewWinForRate(rates) {
   });
 }
 
+// 副視窗
+// eslint-disable-next-line no-unused-vars
+ipcMain.on('openNewWindow', async (event) => {
+  const rates = mapExchangeData.get('rate');
+  createNewWinForRate(rates);
+});
+
 app.whenReady().then(async () => {
   const exchangeData = await updateExchangeData();
   createWindow(exchangeData);
@@ -153,11 +163,4 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
-});
-
-// 副視窗
-// eslint-disable-next-line no-unused-vars
-ipcMain.on('openNewWindow', async (event) => {
-  const rates = mapExchangeData.get('rate');
-  createNewWinForRate(rates);
 });
