@@ -32,10 +32,7 @@
         },
         "win": {
             "target": "portable",
-            "icon": "build/icons/divineOrb64.png",
-            "png": [
-                "build/icons/divineOrb.png"
-            ]
+            "icon": "build/icons/divineOrb.png"
         }
     }
 }
