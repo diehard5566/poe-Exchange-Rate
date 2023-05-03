@@ -5,9 +5,9 @@ const process = require('process');
 const { divine } = require('./controller/currencyExchange');
 const searchJsonReady = require('./src/divinePrice.json');
 //方便開發使用
-require('electron-reload')(__dirname, {
-  electron: require(`${__dirname}/node_modules/electron`)
-});
+// require('electron-reload')(__dirname, {
+//   electron: require(`${__dirname}/node_modules/electron`)
+// });
 
 ipcMain.setMaxListeners(50);
 
