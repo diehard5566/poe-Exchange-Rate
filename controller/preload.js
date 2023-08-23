@@ -1,4 +1,5 @@
 const { ipcRenderer,shell } = require('electron');
+window.ipcRenderer = require('electron').ipcRenderer;
 
 window.addEventListener('DOMContentLoaded', () => {
   const exchangeDataElement = document.getElementById('exchange-data1');

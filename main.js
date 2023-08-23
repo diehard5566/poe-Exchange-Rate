@@ -29,6 +29,7 @@ function createWindow(exchangeData) {
     x: 0,
     y: 0,
     frame: false,
+    alwaysOnTop: true,
     backgroundColor: '#80000000',
     webPreferences: {
       nodeIntegration: true,
@@ -42,7 +43,7 @@ function createWindow(exchangeData) {
   win.setOpacity(0.85);
   win.setIgnoreMouseEvents(false, { forward: true });
   win.setVisibleOnAllWorkspaces(true);
-  win.setAlwaysOnTop(true)
+  win.setAlwaysOnTop(true, 'normal')
 
   win.loadFile('./src/index.html')
 
