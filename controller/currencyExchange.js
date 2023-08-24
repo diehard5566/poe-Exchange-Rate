@@ -14,7 +14,7 @@ const getURLFromGGC = async searchJsonReady => {
             body: JSON.stringify(searchJsonReady),
         }
 
-        const res = await fetch('http://web.poe.garena.tw/api/trade/exchange/熔火聯盟', requestOption) //TODO 每季要改成新聯盟 
+        const res = await fetch('http://web.poe.garena.tw/api/trade/exchange/祖靈聯盟', requestOption) //TODO 每季要改成新聯盟 
         const data = await res.json()
 
         return data

@@ -94,3 +94,7 @@ body {
 #my-draggable {
     -webkit-app-region: drag; 
 } 
+
+#official-link, #openNewWindowArea {
+    -webkit-app-region: no-drag; 
+}

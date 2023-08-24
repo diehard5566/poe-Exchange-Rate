@@ -7,19 +7,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   </head>
   <body class="container">
-  <div id="my-draggable">
-          <div id="exchange-data1"></div>
-    <div id="link-section">
-      <a href="#" id="official-link">官網連結</a>
-      <div id="openNewWindowArea">
-        <div id="openNewWindowTip">
-          <img src="./img/chaosOrb.jpeg" alt="換算">
+    <div id="my-draggable">
+      <!-- 这里应用拖曳功能 -->
+      <div id="dragabble-content">
+        <!-- 页面内容 -->
+        <div id="exchange-data1"></div>
+        <div id="link-section">
+          <a href="#" id="official-link">官網連結</a>
+          <div id="openNewWindowArea">
+            <div id="openNewWindowTip">
+              <img src="./img/chaosOrb.jpeg" alt="換算">
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  
     <script src="../controller/preload.js"></script>
     <script>
       const openNewWindowArea = document.getElementById('openNewWindowArea');
