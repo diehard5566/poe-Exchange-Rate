@@ -1,6 +1,6 @@
 {
     "name": "poe-divine-exchange-rate",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "tells me div price",
     "main": "main.js",
     "scripts": {

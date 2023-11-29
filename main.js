@@ -48,17 +48,19 @@ function createWindow(exchangeData) {
   win.loadFile('./src/index.html')
 
   setInterval(async () => {
-    const exchange = await divine(searchJsonReady)
-    const formatExchange =  exchange[0].slice(0, 3).map(val => `${val}c`).join(',');
+    const exchange = await divine(searchJsonReady);
+    const { finalDivinePrice } = exchange;
+    const formatExchange =  finalDivinePrice.slice(0, 3).map(val => `${val}c`).join(',');
 
-    mapExchangeData.set('rate', exchange[0][1])
+    mapExchangeData.set('rate', finalDivinePrice[1]);
 
     win.webContents.send('exchangeData1', formatExchange);
   }, 180000);
 
   ipcMain.on('getExchangeData', (event) => {
     event.sender.send('exchangeData1', exchangeData.formatExchange);
-    event.sender.send('official-link', exchangeData.URL);
+    event.sender.send('official-link', exchangeData.searchURL);
+    event.sender.send('league-name', exchangeData.leagueName);
   });
 
   win.on('closed', () => {
@@ -71,14 +73,15 @@ function createWindow(exchangeData) {
 async function updateExchangeData() {
   try {
     const exchange = await divine(searchJsonReady);
-    const formatExchange =  exchange[0].slice(0, 3).map(val => `${val}c`).join(',');
-    const URL = exchange[1];
+    const { finalDivinePrice, searchURL, leagueName } = exchange;
+    const formatExchange =  finalDivinePrice.slice(0, 3).map(val => `${val}c`).join(',');
 
-    mapExchangeData.set('rate', exchange[0][1])
+    mapExchangeData.set('rate', finalDivinePrice[1])
 
     return {
       formatExchange,
-      URL
+      searchURL,
+      leagueName,
     };
   } catch (error) {
     console.log(error);
@@ -97,9 +100,6 @@ function createNewWinForRate(rates) {
   };
 
   const winBounds = getWinBounds();
-  console.log('🚀 -------------------------------------------------------------------🚀');
-  console.log('🚀 ~ file: main.js:98 ~ createNewWinForRate ~ winBounds:', winBounds);
-  console.log('🚀 -------------------------------------------------------------------🚀');
   
   newWin= new BrowserWindow({
     parent: win,
@@ -150,9 +150,11 @@ ipcMain.on('openNewWindow', async (event) => {
   createNewWinForRate(rates);
 });
 
+// 主視窗
 app.whenReady().then(async () => {
   const exchangeData = await updateExchangeData();
   createWindow(exchangeData);
+
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
